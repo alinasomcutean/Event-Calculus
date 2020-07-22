@@ -1,1 +1,4 @@
 # Event-Calculus
+This is my semestrial project from the Artifficial Inteligence.
+
+In this project I have a robot, Rob, which can be moved from one room to another and it can change the temperature in that room. The robot has some energy. Every time when the robot does a command, his energy decreases by 1, such that, at some point, his energy will become 0 and he will not be able anymore to perform any command. So, this is way is necessarily to have a command which tells him to charge once. Because Rob is a robot and he is composed of some circuits, he will suers some damages if the temperature in the room is greater then 30 or less then 15 degrees. In this case, when the temperature reaches these values Rob will send an alert to the user about this event. If the user continue to increase/decrease the temperature, when the value of the temperature becomes 40 or 5, the robot will defect.
