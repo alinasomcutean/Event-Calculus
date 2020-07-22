@@ -1,0 +1,68 @@
+initiates(exec(move(R,X,Y)),at(R,Y),T):-
+	connected(X,Y),
+	holds_at(at(R,X),T),
+	holds_at(status(battery(R),L),T),
+	L > 0.
+
+terminates(exec(move(R,X,Y)),at(R,X),T):-
+	holds_at(at(R,X),T),
+	connected(X,Y).
+
+initiates(exec(move(R,X,Y)),status(battery(R),L),T):-
+	holds_at(status(battery(R),Lold),T),
+	Lold > 0,
+	L is Lold - 1,
+	connected(X,Y),
+	holds_at(at(R,X),T).
+
+terminates(exec(move(R,X,Y)),status(battery(R),Lold),T):-
+	connected(X,Y),
+	holds_at(at(R,X),T),
+	holds_at(status(battery(R),Lold),T),
+	Lold > 0.
+
+initiates(exec(setTemp(R,V)),status(degree(R),L),T):-
+	holds_at(status(degree(R),Lold),T),
+	Lold > 0,
+	L is V.
+
+terminates(exec(setTemp(R,V)),status(degree(R),Lold),T):-
+	holds_at(status(degree(R),Lold),T),
+	Lold > 0.
+
+initiates(exec(riseTemp(R,S,V)),status(degree(R),L),T):-
+	holds_at(status(degree(R),Lold),T),
+	Lold < 25,
+	L is S + V.
+
+terminates(exec(riseTemp(R,S,V)),status(degree(R),L),T):-
+	holds_at(status(degree(R),Lold),T),
+	Lold < 25.
+
+initiates(exec(fallTemp(R,S,V)),status(degree(R),L),T):-
+	holds_at(status(degree(R),Lold),T),
+	Lold > 15,
+	L is S - V.
+
+terminates(exec(fallTemp(R,S,V)),status(degree(R),L),T):-
+	holds_at(status(degree(R),Lold),T),
+	Lold > 15.
+
+initiates(exec(askTemp(R)),status(degree(R),L),T):-
+	holds_at(status(degree(R),Lold),T),
+	Lold < 28,
+	L is 18 + T.
+
+terminates(exec(askTemp(R)),status(degree(R),L),T):-
+	holds_at(status(degree(R),Lold),T),
+	Lold < 28.
+
+initially(at(rob,room1)).
+initially(status(battery(rob),10)).
+
+initially(status(degree(room1),18)).
+
+connected(room1,room2).
+connected(room2,room1).
+connected(room2,room3).
+connected(room3,room2).
